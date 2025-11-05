@@ -37,7 +37,7 @@ int ingresoSaldo(float *apuntadorSaldo)
 
 int main()
 {
-    int contrasena = 1234, correcto, contrasenaIngresada, seleccion, a = 1;
+    int contrasena = 1234, correcto = 0, contrasenaIngresada, seleccion, a = 1;
     float saldo = 3401.68;
     float *apuntadorSaldo = &saldo;
 
