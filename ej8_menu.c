@@ -32,30 +32,31 @@ int ingresoSaldo(float *apuntadorSaldo)
     printf("\n");
     *apuntadorSaldo += numero;
     printf("\t   Su nuevo saldo es: $%f\n", *apuntadorSaldo);
+    return 0;
 }
 
 int main()
 {
-    int contrasena = 1234, correcto, contraseñaIngresada, seleccion, i = 1;
-    float saldo = 3401.68, ingreso;
+    int contrasena = 1234, correcto, contrasenaIngresada, seleccion, a = 1;
+    float saldo = 3401.68;
     float *apuntadorSaldo = &saldo;
 
     do
     {
         printf("\n\tIngrese la contrasena:");
-        scanf("%d", &contraseñaIngresada);
+        scanf("%d", &contrasenaIngresada);
         limpiarBuffer();
-        if (contrasena == contraseñaIngresada)
+        if (contrasena == contrasenaIngresada)
         {
             correcto = 1;
             break;
         }
-        i != 3 ? printf("\t↳ Intento %d: incorrecto\n", i) : printf("\tAcceso bloqueado\n");
-        if (i == 3)
+        a != 3 ? printf("\t↳ Intento %d: incorrecto\n", a) : printf("\tAcceso bloqueado\n");
+        if (a == 3)
         {
             break;
         }
-        i++;
+        a++;
     } while (correcto == 0);
 
     while (correcto == 1)
@@ -73,7 +74,7 @@ int main()
             printf("\n\t   Su saldo es $%f\n", *apuntadorSaldo);
             break;
         case depositar:
-            ingreso = ingresoSaldo(apuntadorSaldo);
+            ingresoSaldo(apuntadorSaldo);
             break;
         case salir:
             correcto = 0;
