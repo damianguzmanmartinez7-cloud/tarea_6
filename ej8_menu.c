@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
 enum opciones
 {
@@ -8,59 +9,43 @@ enum opciones
     depositar
 };
 
-float deposito(float *apuntadorSaldo)
+void limpiarBuffer()
 {
-    char datosIngresados[100];
-    int ingresoNumeros, error = 0;
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF)
+        ;
+}
 
-    printf("\t   Ingrese una cantidad entera:  ");
+int ingresoSaldo(float *apuntadorSaldo)
+{
+    int numero = 0, caracter;
+    printf("\t   Ingrese la cantidad a depositar (sin decimales): ");
 
-    // do
-    // {
-    //     fgets(datosIngresados, sizeof(datosIngresados), stdin);
-    //     // datosIngresados[strcspn(datosIngresados, "\n")] = 0;
-    //     if (sscanf(datosIngresados, "%d", &ingresoNumeros) == 1)
-    //     {
-    //         break;
-    //     }
-    //     else
-    //     {
-    //         printf("\t   Ingreso inválido, intente de nuevo: ");
-    //         error = 1;
-    //     }
-    // } while (error == 1);
-
-    while (fgets(datosIngresados, sizeof(datosIngresados), stdin))
+    while ((caracter = getchar()) != '\n' && caracter != EOF)
     {
-        datosIngresados[strcspn(datosIngresados, "\n")] = 0;
-
-        if (sscanf(datosIngresados, "%d", &ingresoNumeros) == 1)
+        if (isdigit(caracter))
         {
-            break;
-        }
-        else
-        {
-            printf("\t   Ingreso inválido, intente de nuevo: ");
+            numero = numero * 10 + (caracter - '0');
+            printf("\t   El saldo ingresado es: %c", caracter);
         }
     }
-
-    // printf("\t   Ingresó: $%d a su cuenta\n", ingresoNumeros);
-
-    *apuntadorSaldo = *apuntadorSaldo + ingresoNumeros;
-    printf("\t   Su nuevo saldo es $%f\n", *apuntadorSaldo);
+    printf("\n");
+    *apuntadorSaldo += numero;
+    printf("\t   Su nuevo saldo es: $%f\n", *apuntadorSaldo);
 }
 
 int main()
 {
-    int contraseña = 1234, correcto, contraseñaIngresada, menu, seleccion, i = 1;
-    float saldo = 3401.68, *apuntadorSaldo;
-    apuntadorSaldo = &saldo;
+    int contrasena = 1234, correcto, contraseñaIngresada, seleccion, i = 1;
+    float saldo = 3401.68, ingreso;
+    float *apuntadorSaldo = &saldo;
 
     do
     {
-        printf("\n\tIngrese la contraseña:");
+        printf("\n\tIngrese la contrasena:");
         scanf("%d", &contraseñaIngresada);
-        if (contraseña == contraseñaIngresada)
+        limpiarBuffer();
+        if (contrasena == contraseñaIngresada)
         {
             correcto = 1;
             break;
@@ -76,21 +61,26 @@ int main()
     while (correcto == 1)
     {
         printf("\n\t---Menú--- \n\t1. Consultar\n\t2. Depositar\n\t0. Salir\n\t   Elija su selección: ");
-        scanf("%d", &seleccion);
+        if (scanf("%d", &seleccion) != 1)
+        {
+            seleccion = -1; // ingresa a default
+        }
+        limpiarBuffer();
+
         switch (seleccion)
         {
         case consultar:
             printf("\n\t   Su saldo es $%f\n", *apuntadorSaldo);
             break;
         case depositar:
-            deposito(apuntadorSaldo);
+            ingreso = ingresoSaldo(apuntadorSaldo);
             break;
         case salir:
             correcto = 0;
             printf("\n\t   Saliendo del cajero\n");
             break;
         default:
-            printf("\n\t   Ingrese una de las opciones del manú\n");
+            printf("\n\t   Ingrese una de las opciones del menú\n");
             break;
         }
     }
