@@ -26,9 +26,9 @@ int ingresoSaldo(float *apuntadorSaldo)
         if (isdigit(caracter))
         {
             numero = numero * 10 + (caracter - '0');
-            printf("\t   El saldo ingresado es: %c", caracter);
         }
     }
+    printf("\t   El saldo ingresado es: %d", numero);
     printf("\n");
     *apuntadorSaldo += numero;
     printf("\t   Su nuevo saldo es: $%f\n", *apuntadorSaldo);
